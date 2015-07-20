@@ -1,0 +1,66 @@
+---
+title: "CodeBook"
+output: html_document
+---
+
+Code Book for the *run_analysis.R* script to run the data from the project instructions in the Getting and Cleaning Data course to obtain a tidy data set with the desired averaged variables per subject and per activity measured.
+It gives an idea of the data used and produced, even in auxiliary steps of the computation.
+
+- xtrain: Data frame with 7352 observations and 561 variables.
+      Values taken from X_train.txt file in the train folder of the Dataset. Column names are numbers, no names for rows. Values are the measurements during training made by the smartwatch in the 561 different categories.
+      
+- ytrain: Data frame with 7352 observations and 1 variable.
+      Values taken from y_train.txt file in the train folder of the Dataset. Values range between 1 and 6, the six different activities performed.
+      
+- subtrain: Data frame with 7352 observations and 1 variable.
+      Values taken from subject_train.txt file in the train folder of the Dataset. Values give the subject performing each activity (with a number between 1 and 30, but just the ones in the *train* group).
+      
+- subtest: Data frame with 2947 observations and 1 avriable.
+      Values taken from subject_test.txt file in the test folder of the Dataset.
+Values give the subject performing each activity (with a number between 1 and 30, but just the ones in the *test* group).
+
+- xtest: Data frame with 2947 observations and 561 variables.
+      Values taken from X_test.txt file in the test folder of the Dataset. Column names are numbers, no names for rows. Values are the measurements during tests made by the smartwatch in the 561 different categories.
+      
+- ytest: Data frame with 2947 observations and 1 variable.
+      Values taken from y_test.txt file in the test folder of the Dataset. Values range between 1 and 6, the six different activities performed.
+      
+- actlabels: Data frame with 6 observations of 2 variables.
+      Values taken from activity_labels.txt file on the Dataset. It links the values in ytest and ytrain with the name of the activity performed: WALKING, WALKING UPSTAIRS, WALKING DOWNSTAIRS, SITTING, STANDING, LAYING.
+
+- features: Data frame with 561 observations and 2 variables.
+      Values taken from features.txt file on the Dataset. It links the names of the 561 columns in the xtest and xtrain files with their measured feature, such as the calculations *mean(), std(), mad(), max(), min(), sma()* among others in the variables like *tBodyAcc-XYZ, tGravityAcc-XYZ, tBodyAccJerk-XYZ, tBodyGyro-XYZ, tBodyGyroJerk-XYZ, tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag, fBodyAcc-XYZ*... and more. All of them explained and enumerated on the file features_info.txt found in the Dataset.
+      
+- ytestactiv: Data frame with 2947 observations and 2 variables.
+      Temporary file joining ytest and actlabels giving the name of the activity performed in every value of ytest.
+      
+- ytrainactiv: Data frame with 7352 observations and 2 variables.
+      Temporary file joining ytrain and actlabels giving the name of the activity performed in every value of ytrain.
+
+- activities: Data frame with 10299 observations and 2 variables.
+      Temporary file binding rows of ytestactiv and ytrainactiv, covering all activity codes with the names of the activities, starting with the test measurements, followed by the train ones.
+      
+- subjects: Data frame with 10299 observations and 1 variable.
+      Temporary file binding rows of subtrain and subtest, giving the code of the subject performing all activities, starting with the test measurements, followed by the train ones.
+      
+- alldata: Data frame with 10299 observations and 561 variables.
+      Temporary file binding rows of xtest and xtrain, providing all values measured, starting with the test measurements, followed by the train ones.
+      
+- relevantvariables: Data frame with 10299 observations and 66 variables.
+      Temporary file created from alldata where only columns with *mean()* and *std()* in their names have been selected. Selection of the variables as per Project instructions, following guidance obtained in pinned posts of the Discussion Forums: *https://class.coursera.org/getdata-030/forum/thread?thread_id=37* and *https://class.coursera.org/getdata-030/forum/thread?thread_id=107*.
+      
+- finaldata: Data frame with 10299 observations and 68 variables.
+      Temporary file binding columns of subjects, a column from activities and relevantvariables. It links the subject performing the activity, the name of the activity and the 66 relevant measurements.
+
+- datamolten: Data frame with 679734 observations of 4 variables.
+      Temporary file product of melting finaldata with the columns *subject, activity, variable (the name of the variable measured: *tBodyAcc-XYZ, tGravityAcc-XYZ, etc, and for mean and std) and value*.
+      
+- **productwide**: Data frame with 180 observations of 68 variables.
+      **Final objective file in tidy wide form** of the average per subject and activity of each of the 66 relevant variables.
+      
+- narrowchaos: Data frame with 11880 observations of 4 variables.
+      Temporary file, product of melting productwide, where the data is arranged in a narrow way, with columns for subject, activity, relevant variable and value. It is not properly arranged.
+
+- **productnarrow**: Data frame of 11880 observations of 4 variables.
+      **Final (and optional) objective file, tidy narrow form** of average per subject and activity of each of the 66 relevant variables.
+
